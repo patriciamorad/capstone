@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :v1 do 
     post "/users" => "users#create"
-    post "/favorite_events" => "attended_events#create"
     get "/events" => "events#index"
+    get "/attended_events" => "attended_events#index"
+    post "/attended_events" => "attended_events#create"
+
   end
 end
