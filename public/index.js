@@ -655,7 +655,8 @@ var HomePage = {
   template: "#home-page",
   data: function() {
     return {
-      events: []
+      events: [],
+      eventFilter: ""
     };
   },
   mounted: function() {
@@ -686,9 +687,26 @@ var HomePage = {
           : "img/events/event1.jpg"
       };
       axios.post("/v1/attended_events", params);
+    },
+    nameFilter: function(inputEvent) {
+      return inputEvent.name
+        .toLowerCase()
+        .includes(this.eventFilter.toLowerCase());
     }
   },
-  computed: {},
+  computed: {
+    sortedEvents: function() {
+      return this.events.sort(
+        function(event1, event2) {
+          if (this.sortAscending === true) {
+            return event1[this.sortAttribute] > event2[this.sortAttribute];
+          } else {
+            return event1[this.sortAttribute] < event2[this.sortAttribute];
+          }
+        }.bind(this)
+      );
+    }
+  },
   filters: {
     shortDescription: function(text) {
       var maxLength = 100;
