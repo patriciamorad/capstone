@@ -15,9 +15,10 @@ class V1::EventsController < ApplicationController
       # else
       #   images = []
       # end
-      images = []
+      index = 0 
+      images = ["img/events/event1.jpg","img/events/event2.jpg", "img/events/event3.jpg", "img/events/event4.jpg", "img/events/event5.jpg", "img/events/event6.jpg", "img/events/event7.jpg","img/events/event8.jpg", "img/events/event9.jpg", "img/events/event10.jpg", "img/events/event11.jpg", "img/events/event12.jpg", "img/events/event13.jpg"]
+      event["description_images"] = [images.sample]
       p images
-      event["description_images"] = images
     end
 
     render json: events.as_json

@@ -656,7 +656,9 @@ var HomePage = {
   data: function() {
     return {
       events: [],
-      eventFilter: ""
+      eventFilter: "",
+      sortAttribute: "",
+      sortAscending: true
     };
   },
   mounted: function() {
