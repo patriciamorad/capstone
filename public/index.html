@@ -301,10 +301,10 @@
           <!-- Nav Filters -->
           <ul class="nav-filters">
             <li class="active"><a href="#">All</a> <sup>135</sup></li>
-            <li><a href="#">Furniture</a> <sup>42</sup></li>
-            <li><a href="#">Accessories</a> <sup>56</sup></li>
-            <li><a href="#">Lightning</a> <sup>28</sup></li>
-            <li><a href="#">Clocks</a> <sup>10</sup></li>
+            <li><a href="#">Furniture</a></li>
+            <li><a href="#">Accessories</a></li>
+            <li><a href="#">Lightning</a></li>
+            <li><a href="#">Clocks</a></li>
           </ul><!-- .nav-filters -->
         </div><!-- .column -->
         <div class="column">
@@ -476,112 +476,21 @@
           <div class="gutter-sizer"></div>
 
           <!-- Gallery Item -->
-          <div class="grid-item devices">
-            <a href="img/gallery/01.jpg" class="gallery-item">
-             <img src="img/gallery/thumbs/th02.jpg" alt="Gallery">
+          <div class="grid-item devices" v-for="attended_event in attended_events">
+            <a href="attended_event.event_image" class="gallery-item">
+             <img v-bind:src='attended_event.event_image' alt="Gallery">
               <span class="gallery-caption">
                 <h3>Devices Mockup</h3>
                 <p>Lorem ipsum dolor sit amet consectetur.</p>
               </span>
             </a>
           </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item fashion">
-            <a href="img/gallery/02.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th02.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>Bart Reed Outware</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item packaging">
-            <a href="img/gallery/03.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th03.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>Brand Box</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item paper">
-            <a href="img/gallery/04.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th04.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>Flying Books</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item fashion">
-            <a href="img/gallery/05.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th05.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>Design Socks</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item packaging">
-            <a href="img/gallery/06.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th06.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>Tote Bag</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item devices">
-            <a href="img/gallery/07.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th07.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>iPhone Mockup</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item paper">
-            <a href="img/gallery/08.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th08.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>Leaflet Design</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
-
-          <!-- Gallery Item -->
-          <div class="grid-item fashion">
-            <a href="img/gallery/09.jpg" class="gallery-item">
-              <img src="img/gallery/thumbs/th09.jpg" alt="Gallery">
-              <span class="gallery-caption">
-                <h3>T-Shirt Mockup</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
-              </span>
-            </a>
-          </div><!-- .grid-item -->
+         
         </div><!-- .isotope-grid -->
       </section><!-- .container-fluid --> 
     </div>    
   </div>
 </template>
-
-
-
-
 
 
 <template id="signup-page">

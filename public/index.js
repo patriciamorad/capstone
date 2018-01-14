@@ -675,14 +675,15 @@ var HomePage = {
   },
   methods: {
     saveEvent: function(inputEvent) {
+      console.log("inputEvent is:", inputEvent);
       var params = {
         api_event_id: inputEvent.id,
         name: inputEvent.name,
         date: inputEvent.local_date,
-        location: inputEvent.venue.name,
+        location: inputEvent.venue ? inputEvent.venue.name : "(no venue)",
         image: inputEvent.description_images[0]
           ? inputEvent.description_images[0]
-          : "N/A"
+          : "img/events/event1.jpg"
       };
       axios.post("/v1/attended_events", params);
     }

@@ -17,7 +17,8 @@ class V1::AttendedEventsController < ApplicationController
   end 
 
   def index 
-    attended_events = AttendedEvent.all 
+    user_id = current_user.id
+    attended_events = AttendedEvent.where(user_id: user_id)
     search_terms = params[:search]
     if search_terms
       attended_events = attended_events.where("name ILIKE ?", "%#{params[:search]}%")
