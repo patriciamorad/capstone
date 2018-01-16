@@ -98,16 +98,7 @@
             </ul>
           </li>
           <li class="menu-item-has-children">
-            <a href="#">Shop</a>
-            <ul class="sub-menu">
-              <li><a href="shop-single.html">Single Product</a></li>
-              <li><a href="shopping-cart.html">Shopping Cart</a></li>
-              <li><a href="checkout.html">Checkout</a></li>
-             
-            </ul>
-          </li>
-          <li class="menu-item-has-children">
-            <a href="#">Gallery</a>
+            <a href="#">Events</a>
             <ul class="sub-menu">
               <li><a href="/#/attended_events">My Events</a></li>
             </ul>
@@ -241,7 +232,6 @@
   <script src="js/vendor/owl.carousel.min.js"></script>
   <script src="js/vendor/nouislider.min.js"></script>
   <script src="js/scripts.js"></script>
-
 </body><!-- <body> -->
 
 </html>
@@ -316,6 +306,7 @@
             </div>
             <div class="col-md-2">
             </div>
+
             <div class="col-md-3 col-md-offset-1">
             </div>
           </div><!-- .row -->
@@ -339,9 +330,9 @@
             <div class="shop-thumbnail">
               <!-- <span class="shop-label text-danger">Sale</span> -->
               <a href="shop-single.html" class="item-link"></a>
-              <img class="card-img-top" v-bind:src="event.description_images[0] ? event.description_images[0] : 'http://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png' " alt="Shop item">
+              <img class="card-img-top" v-bind:src="event.description_images[0]" alt="Shop item">
               <div class="shop-item-tools">
-                <a href="#" class="add-to-whishlist" data-toggle="tooltip" data-placement="top" title="More info">
+                <a v-bind:href="'#/events/' + event.id + '?urlname=' + event.group.urlname" class="add-to-whishlist" v-on:click="eventInfo(event)"data-toggle="tooltip" data-placement="top" title="More info">
                   <i class="material-icons favorite_border"></i>
                 </a>
                 <a href="#" class="add-to-cart" v-on:click="saveEvent(event)">
@@ -364,7 +355,7 @@
       </div><!-- .row -->
 
       <!-- Load More Btn -->
-      <a href="#" class="load-more-btn space-top">Load More <sup>25</sup></a>
+      <a href="#" class="load-more-btn space-top" v-on:click="loadMore()">Load More <sup>10</sup></a>
     </section><!-- .container -->
 
   
@@ -398,6 +389,138 @@
   </div>
 </template>
 
+
+<template id="eventinfo-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>Event Information</h1>
+        <!-- Product Info -->
+        <section class="fw-section bg-gray padding-bottom-3x">
+          <div class="container">
+            <div class="product-info padding-top-2x text-center">
+              <h1 class="h2 space-bottom-half">{{ event.name }}</h1>
+              <h2>{{ event.date }}</h2>
+              <p class="text-sm text-gray">Quisque rutrum eu sapien in viverra. Quisque id consectetur tellus. Etiam in lacus ut lorem vehicula vehicula non et felis. Integer quis solis.</p>
+            </div><!-- .product-info -->
+          </div><!-- .container -->
+        </section><!-- .fw-section.bg-gray -->
+
+        <!-- Product Tabs -->
+        <section class="container padding-top-2x">
+          <!-- Nav Tabs -->
+          <ul class="nav-tabs text-center" role="tablist">
+            <li class="active"><a href="#description" role="tab" data-toggle="tab">Description</a></li>
+            <li><a href="#additional" role="tab" data-toggle="tab">Additional Info</a></li>
+            <li><a href="#reviews" role="tab" data-toggle="tab">TidBits</a></li>
+          </ul><!-- .nav-tabs -->
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane transition fade in active" id="description">
+              <div class="row space-top">
+                <div class="col-md-6 space-bottom">
+                  <div class="embed-responsive embed-responsive-16by9">
+                    <iframe src="https://player.vimeo.com/video/105829213?color=77cde3&title=0&byline=0&portrait=0" allowfullscreen></iframe>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam hic totam, tempore quos dicta voluptate tempora ex voluptatum amet, veniam assumenda magnam eveniet eius reiciendis, ab necessitatibus quis iure libero.</p>
+                  <p>Alias commodi aspernatur quo illo dolor voluptatem animi ipsum laudantium similique blanditiis, molestias facilis vitae harum minima obcaecati corrupti quibusdam minus modi.</p>
+                </div>
+              </div>
+            </div><!-- .tab-pane -->
+            <div role="tabpanel" class="tab-pane transition fade" id="additional">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table-no-border">
+                    <tr>
+                      <th>Location</th>
+                      <td>2.65 kg</td>
+                    </tr>
+                    <tr>
+                      <th>Dimensions</th>
+                      <td>120 x 75 x 90 cm</td>
+                    </tr>
+                    <tr>
+                      <th>Materials</th>
+                      <td>40% wood, 37% cotton, 23% plastic</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table-no-border">
+                    <tr>
+                      <th>Colors</th>
+                      <td>Blue, Creme, Orange, Red</td>
+                    </tr>
+                    <tr>
+                      <th>Manufacturer</th>
+                      <td>Norway</td>
+                    </tr>
+                    <tr>
+                      <th>Other Info</th>
+                      <td>Repellendus ea laudantium pariatur eum.</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div><!-- .tab-pane -->
+            <div role="tabpanel" class="tab-pane transition fade" id="reviews">
+              <!-- Review -->
+              <div class="review">
+                <div class="review-body">
+                  <div class="review-meta">
+                    <div class="column">
+                      <h4 class="review-title">Very stylish. Great Deal!</h4>
+                    </div>
+                  </div>
+                  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae.</p>
+                  <cite>Jessie James</cite>
+                </div>
+              </div><!-- .review -->
+              <!-- Review -->
+              <div class="review">
+                <div class="review-body">
+                  <div class="review-meta">
+                    <div class="column">
+                      <h4 class="review-title">Nice nordic design, afordable price.</h4>
+                    </div>
+                  </div>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae sequi ipsa fugit officia eos! Sapiente laboriosam molestiae praesentium ducimus culpa. Magnam, odit, optio. Possimus similique eligendi explicabo, dolore, beatae sequi.</p>
+                  <cite>Susanna Davis</cite>
+                </div>
+              </div><!-- .review -->
+              <!-- Review -->
+              <div class="review">
+                <div class="review-body">
+                  <div class="review-meta">
+                    <div class="column">
+                      <h4 class="review-title">Godd value for your money.</h4>
+                    </div>
+                  </div>
+                  <p>Anuo ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae.</p>
+                  <cite>Donald Murphy</cite>
+                </div>
+              </div><!-- .review -->
+              <!-- Reviview Form -->
+              <h4 class="padding-top">Save Tidbits of Information</h4>
+              <form method="post" class="row padding-top">
+                <div class="col-sm-12">
+                  <div class="form-element">
+                    <textarea rows="8" class="form-control" placeholder="These tidbits will be sent to you via text during the event..." required></textarea>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-lg-offset-9 col-md-offset-8 col-sm-offset-6">
+                      <button type="submit" class="btn btn-block btn-primary waves-effect waves-light space-top-none space-bottom-none">Save Tidbit</button>
+                    </div>
+                  </div>
+                </div>
+              </form><!-- .row -->
+            </div><!-- .tab-pane -->
+          </div><!-- .tab-content -->
+        </section><!-- .container -->
+    </div>    
+  </div>
+</template>
 
 <template id="signup-page">
   <div class="container">

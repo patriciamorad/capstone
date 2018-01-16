@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :v1 do 
     post "/users" => "users#create"
     get "/events" => "events#index"
+    get "/events/:id" => "events#show"
     get "/attended_events" => "attended_events#index"
     post "/attended_events" => "attended_events#create"
 
