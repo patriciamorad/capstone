@@ -24,7 +24,10 @@ class V1::EventsController < ApplicationController
   def show
     response = Unirest.get("http://api.meetup.com/#{params[:urlname]}/events/#{params[:id]}?key=#{ENV['MEETUP_API_KEY']}")
     event = response.body
+    puts "-" * 50
+    puts "The event is..."
     p event
+    puts "-" * 50
     render json: event.as_json
   end
 end

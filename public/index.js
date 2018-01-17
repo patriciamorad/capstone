@@ -117,16 +117,24 @@ var EventInfoPage = {
   template: "#eventinfo-page",
   data: function() {
     return {
-      events: []
+      event: { venue: {} }
     };
   },
   created: function() {
-    axios.get("/v1/events/" + this.$route.params.id).then(
-      function(response) {
-        this.events = response.data;
-        console.log(this.events);
-      }.bind(this)
-    );
+    console.log("EventInfoPage created", this.$route.query);
+    axios
+      .get(
+        "/v1/events/" +
+          this.$route.params.id +
+          "/?urlname=" +
+          this.$route.query.urlname
+      )
+      .then(
+        function(response) {
+          this.event = response.data;
+          console.log(this.event);
+        }.bind(this)
+      );
   },
   mounted: function() {
     // runThemeJavaScript();
