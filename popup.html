@@ -1,49 +1,49 @@
 <!doctype html>
 <!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
+ * Copyright (c) 2010 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file.
+-->
 <html>
-  <head>
-    <title>Getting Started Extension's Popup</title>
-    <style type="text/css">
-      body {
-        margin: 10px;
-        white-space: nowrap;
-      }
+<head>
+<link rel="stylesheet" type="text/css" href="popup.css">
+<script src="vue.js"></script>
+<script src="popup.js" defer></script>
 
-      h1 {
-        font-size: 15px;
-      }
+</head>
+<body>
 
-      #container {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-      }
-    </style>
+<div id="spacer_dummy"></div>
+<div id="outer">
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-    -->
-    <script src="popup.js"></script>
-  </head>
+<div id="appstore_link">
+  <p>No apps installed.</p><p>
+  <button>Go get some</button></p>
+</div>
 
-  <body>
-    <h1>Background Color Changer</h1>
-    <div id="container">
-      <span>Choose a color</span>
-      <select id="dropdown">
-        <option selected disabled hidden value=''></option>
-        <option value="white">White</option>
-        <option value="pink">Pink</option>
-        <option value="green">Green</option>
-        <option value="yellow">Yellow</option>
-      </select>
-    </div>
-  </body>
+<div id="vue-app">
+  <h1>{{ message }}</h1>
+  <div>
+    <label>Event name: </label>
+    <input type="text" v-model="eventName">
+  </div>
+  <div>
+    <label>Event info: </label>
+    <input type="text" v-model="eventInfo">
+  </div>
+  <div>
+    <label>Event url: </label>
+    <input type="text" v-model="tabUrl">
+  </div>
+</div>
+
+<div id="search_container">
+  <input id="search" type="text" placeholder="type to search!!!" spellcheck="false">
+</div>
+
+<div id="apps"></div>
+
+</div>
+
+</body>
 </html>

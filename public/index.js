@@ -235,7 +235,10 @@ var router = new VueRouter({
     { path: "/logout", component: LogoutPage },
     { path: "/attended_events", component: AttendedeventsPage },
     { path: "/events/:id", component: EventInfoPage }
-  ]
+  ],
+  scrollBehavior: function(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  }
 });
 
 var app = new Vue({

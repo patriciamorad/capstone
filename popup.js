@@ -1,126 +1,241 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
+// Copyright (c) 2011 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/**
- * Get the current URL.
- *
- * @param {function(string)} callback called when the URL of the current tab
- *   is found.
- */
-function getCurrentTabUrl(callback) {
-  // Query filter to be passed to chrome.tabs.query - see
-  // https://developer.chrome.com/extensions/tabs#method-query
-  var queryInfo = {
-    active: true,
-    currentWindow: true
+/* global Vue, chrome */
+var app = new Vue({
+  el: "#vue-app",
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!",
+      eventName: "something",
+      eventInfo: "some other thing",
+      tabUrl: ""
+    };
+  },
+  mounted: function() {
+    // this.tabUrl = tabs[0].url;
+    chrome.tabs.query(
+      { active: true, lastFocusedWindow: true },
+      function(tabs) {
+        this.tabUrl = tabs[0].url;
+        console.log(tabs, this.tabUrl, Vue);
+        // google how to get the HTML from the current tab and console.log it
+      }.bind(this)
+    );
+  }
+});
+
+// chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+//   var url = tabs[0].url;
+//   console.log(tabs, url, Vue);
+// });
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+// Returns the largest size icon, or a default icon, for the given |app|.
+function getIconURL(app) {
+  if (!app.icons || app.icons.length == 0) {
+    return chrome.extension.getURL("icon.png");
+  }
+  var largest = { size: 0 };
+  for (var i = 0; i < app.icons.length; i++) {
+    var icon = app.icons[i];
+    if (icon.size > largest.size) {
+      largest = icon;
+    }
+  }
+  return largest.url;
+}
+
+function launchApp(id) {
+  chrome.management.launchApp(id);
+  window.close(); // Only needed on OSX because of crbug.com/63594
+}
+
+// Adds DOM nodes for |app| into |appsDiv|.
+function addApp(appsDiv, app, selected) {
+  var div = document.createElement("div");
+  div.className = "app" + (selected ? " app_selected" : "");
+
+  div.onclick = function() {
+    launchApp(app.id);
   };
 
-  chrome.tabs.query(queryInfo, (tabs) => {
-    // chrome.tabs.query invokes the callback with a list of tabs that match the
-    // query. When the popup is opened, there is certainly a window and at least
-    // one tab, so we can safely assume that |tabs| is a non-empty array.
-    // A window can only have one active tab at a time, so the array consists of
-    // exactly one tab.
-    var tab = tabs[0];
+  var img = document.createElement("img");
+  img.src = getIconURL(app);
+  div.appendChild(img);
 
-    // A tab is a plain object that provides information about the tab.
-    // See https://developer.chrome.com/extensions/tabs#type-Tab
-    var url = tab.url;
+  var title = document.createElement("span");
+  title.className = "app_title";
+  title.innerText = app.name;
+  div.appendChild(title);
 
-    // tab.url is only available if the "activeTab" permission is declared.
-    // If you want to see the URL of other tabs (e.g. after removing active:true
-    // from |queryInfo|), then the "tabs" permission is required to see their
-    // "url" properties.
-    console.assert(typeof url == 'string', 'tab.url should be a string');
-
-    callback(url);
-  });
-
-  // Most methods of the Chrome extension APIs are asynchronous. This means that
-  // you CANNOT do something like this:
-  //
-  // var url;
-  // chrome.tabs.query(queryInfo, (tabs) => {
-  //   url = tabs[0].url;
-  // });
-  // alert(url); // Shows "undefined", because chrome.tabs.query is async.
+  appsDiv.appendChild(div);
 }
 
-/**
- * Change the background color of the current page.
- *
- * @param {string} color The new background color.
- */
-function changeBackgroundColor(color) {
-  var script = 'document.body.style.backgroundColor="' + color + '";';
-  // See https://developer.chrome.com/extensions/tabs#method-executeScript.
-  // chrome.tabs.executeScript allows us to programmatically inject JavaScript
-  // into a page. Since we omit the optional first argument "tabId", the script
-  // is inserted into the active tab of the current window, which serves as the
-  // default.
-  chrome.tabs.executeScript({
-    code: script
-  });
+// The list of all apps & extensions.
+var completeList = [];
+
+// A filtered list of apps we actually want to show.
+var appList = [];
+
+// The index of an app in |appList| that should be highlighted.
+var selectedIndex = 0;
+
+function reloadAppDisplay() {
+  var appsDiv = $("apps");
+
+  // Empty the current content.
+  appsDiv.innerHTML = "";
+
+  for (var i = 0; i < appList.length; i++) {
+    var item = appList[i];
+    addApp(appsDiv, item, i == selectedIndex);
+  }
 }
 
-/**
- * Gets the saved background color for url.
- *
- * @param {string} url URL whose background color is to be retrieved.
- * @param {function(string)} callback called with the saved background color for
- *     the given url on success, or a falsy value if no color is retrieved.
- */
-function getSavedBackgroundColor(url, callback) {
-  // See https://developer.chrome.com/apps/storage#type-StorageArea. We check
-  // for chrome.runtime.lastError to ensure correctness even when the API call
-  // fails.
-  chrome.storage.sync.get(url, (items) => {
-    callback(chrome.runtime.lastError ? null : items[url]);
-  });
+// Puts only enabled apps from completeList into appList.
+function rebuildAppList(filter) {
+  selectedIndex = 0;
+  appList = [];
+  for (var i = 0; i < completeList.length; i++) {
+    var item = completeList[i];
+    // Skip extensions and disabled apps.
+    if (!item.isApp || !item.enabled) {
+      continue;
+    }
+    if (filter && item.name.toLowerCase().search(filter) < 0) {
+      continue;
+    }
+    appList.push(item);
+  }
 }
 
-/**
- * Sets the given background color for url.
- *
- * @param {string} url URL for which background color is to be saved.
- * @param {string} color The background color to be saved.
- */
-function saveBackgroundColor(url, color) {
-  var items = {};
-  items[url] = color;
-  // See https://developer.chrome.com/apps/storage#type-StorageArea. We omit the
-  // optional callback since we don't need to perform any action once the
-  // background color is saved.
-  chrome.storage.sync.set(items);
+// In order to keep the popup bubble from shrinking as your search narrows the
+// list of apps shown, we set an explicit width on the outermost div.
+var didSetExplicitWidth = false;
+
+function adjustWidthIfNeeded(filter) {
+  if (filter.length > 0 && !didSetExplicitWidth) {
+    // Set an explicit width, correcting for any scroll bar present.
+    var outer = $("outer");
+    var correction = window.innerWidth - document.documentElement.clientWidth;
+    var width = outer.offsetWidth;
+    $("spacer_dummy").style.width = width + correction + "px";
+    didSetExplicitWidth = true;
+  }
 }
 
-// This extension loads the saved background color for the current tab if one
-// exists. The user can select a new background color from the dropdown for the
-// current page, and it will be saved as part of the extension's isolated
-// storage. The chrome.storage API is used for this purpose. This is different
-// from the window.localStorage API, which is synchronous and stores data bound
-// to a document's origin. Also, using chrome.storage.sync instead of
-// chrome.storage.local allows the extension data to be synced across multiple
-// user devices.
-document.addEventListener('DOMContentLoaded', () => {
-  getCurrentTabUrl((url) => {
-    var dropdown = document.getElementById('dropdown');
+// Shows the list of apps based on the search box contents.
+function onSearchInput() {
+  var filter = $("search").value;
+  adjustWidthIfNeeded(filter);
+  rebuildAppList(filter);
+  reloadAppDisplay();
+}
 
-    // Load the saved background color for this page and modify the dropdown
-    // value, if needed.
-    getSavedBackgroundColor(url, (savedColor) => {
-      if (savedColor) {
-        changeBackgroundColor(savedColor);
-        dropdown.value = savedColor;
+function compare(a, b) {
+  return a > b ? 1 : a == b ? 0 : -1;
+}
+
+function compareByName(app1, app2) {
+  return compare(app1.name.toLowerCase(), app2.name.toLowerCase());
+}
+
+// Changes the selected app in the list.
+function changeSelection(newIndex) {
+  if (newIndex >= 0 && newIndex <= appList.length - 1) {
+    selectedIndex = newIndex;
+    reloadAppDisplay();
+
+    var selected = document.getElementsByClassName("app_selected")[0];
+    var rect = selected.getBoundingClientRect();
+    if (newIndex == 0) {
+      window.scrollTo(0, 0);
+    } else if (newIndex == appList.length - 1) {
+      window.scrollTo(0, document.height);
+    } else if (rect.top < 0) {
+      window.scrollBy(0, rect.top);
+    } else if (rect.bottom > innerHeight) {
+      window.scrollBy(0, rect.bottom - innerHeight);
+    }
+  }
+}
+
+var keys = {
+  ENTER: 13,
+  ESCAPE: 27,
+  END: 35,
+  HOME: 36,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
+};
+
+// Set up a key event handler that handles moving the selected app up/down,
+// hitting enter to launch the selected app, as well as auto-focusing the
+// search box as soon as you start typing.
+window.onkeydown = function(event) {
+  switch (event.keyCode) {
+    case keys.DOWN:
+      changeSelection(selectedIndex + 1);
+      break;
+    case keys.UP:
+      changeSelection(selectedIndex - 1);
+      break;
+    case keys.HOME:
+      changeSelection(0);
+      break;
+    case keys.END:
+      changeSelection(appList.length - 1);
+      break;
+    case keys.ENTER:
+      var app = appList[selectedIndex];
+      if (app) {
+        launchApp(app.id);
       }
-    });
+      break;
+    default:
+      // Focus the search box and return true so you can just start typing even
+      // when the search box isn't focused.
+      $("search").focus();
+      return true;
+  }
+  return false;
+};
 
-    // Ensure the background color is changed and saved when the dropdown
-    // selection changes.
-    dropdown.addEventListener('change', () => {
-      changeBackgroundColor(dropdown.value);
-      saveBackgroundColor(url, dropdown.value);
-    });
+// Initalize the popup window.
+document.addEventListener("DOMContentLoaded", function() {
+  chrome.management.getAll(function(info) {
+    var appCount = 0;
+    for (var i = 0; i < info.length; i++) {
+      if (info[i].isApp) {
+        appCount++;
+      }
+    }
+    if (appCount == 0) {
+      $("search").style.display = "none";
+      $("appstore_link").style.display = "";
+      return;
+    }
+    completeList = info.sort(compareByName);
+    onSearchInput();
   });
+
+  $("search").addEventListener("input", onSearchInput);
+
+  // Opens the webstore in a new tab.
+  document
+    .querySelector("#appstore_link button")
+    .addEventListener("click", function() {
+      chrome.tabs.create({
+        url: "https://chrome.google.com/webstore",
+        selected: true
+      });
+      window.close();
+    });
 });

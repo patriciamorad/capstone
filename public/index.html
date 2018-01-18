@@ -360,7 +360,7 @@
             <a href="attended_event.event_image" class="gallery-item">
              <img v-bind:src='attended_event.event_image' alt="Gallery">
               <span class="gallery-caption">
-                <h3>Devices Mockup</h3>
+                <h3>{{ attended_event.name }}</h3>
                 <p>Lorem ipsum dolor sit amet consectetur.</p>
               </span>
             </a>
@@ -381,7 +381,7 @@
         <section class="fw-section bg-gray padding-bottom-3x">
           <div class="container">
             <div class="product-info padding-top-2x text-center">
-              <h1 class="h2 space-bottom-half"><b> {{ event.name }} </b></h1>
+              <h1 class="h2 space-bottom-half"><b> {{ event.name }}  </b></h1>
               <h2>{{ event.local_date }}</h2>
             </div><!-- .product-info -->
           </div><!-- .container -->
@@ -409,11 +409,11 @@
                   <table class="table-no-border">
                     <tr>
                       <th>Date</th>
-                      <td>{{ event.local_date}}</td>
+                      <td>{{ event.local_date }}</td>
                     </tr>
                     <tr>
                       <th>Time</th>
-                      <td>{{ event.local_time}}</td>
+                      <td>{{ event.local_time }}</td>
                     </tr>
                   </table>
                 </div>
@@ -421,7 +421,7 @@
                   <table class="table-no-border">
                     <tr>
                       <th>Location</th>
-                      <td>{{ event.venue.name }}</td>
+                      <td>{{ event.venue ? event.venue.name : '(no info)' }}</td>
                     </tr>
                     <tr>
                       <th>Link</th>
