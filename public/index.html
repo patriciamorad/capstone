@@ -63,27 +63,35 @@
     <header class="navbar navbar-sticky">
 
       <!-- Site Logo -->
-      <a href="/#/" class="site-logo visible-desktop">
+      <!-- <a href="/#/" class="site-logo visible-desktop">
         <span class="text-gray"></span>
         mesh <span></span>
-      </a>
+      </a> -->
+      <router-link to="/" class="site-logo visible-desktop">
+        <span class="text-gray"></span>
+        mesh <span></span>
+      </router-link>
 
       <!-- Main Navigation -->
       <!-- Control the position of navigation via modifier classes: "text-left, text-center, text-right" -->
       <nav class="main-navigation text-center">
         <ul class="menu">
           <li class="menu-item-has-children current-menu-item">
-            <a href="/#">Home</a>
+            <!-- <a href="/#">Home</a> -->
+            <router-link to="/">Home</router-link>
             <ul class="sub-menu">
-              <li><a href="/#/login">Login</a></li>
-              <li><a href="/#/signup">Sign Up</a></li>
+              <!-- <li><a href="/#/login">Login</a></li> -->
+              <li><router-link to="/login">Login</router-link></li>
+              <!-- <li><a href="/#/signup">Sign Up</a></li> -->
+              <li><router-link to="/signup">Sign Up</router-link></li>
               <li><a href="account.html">User Account Page</a></li>
             </ul>
           </li>
           <li class="menu-item-has-children">
             <a href="#">Events</a>
             <ul class="sub-menu">
-              <li><a href="/#/attended_events">My Events</a></li>
+              <!-- <li><a href="/#/attended_events">My Events</a></li> -->
+              <li><router-link to="/attended_events">My Events</router-link></li>
             </ul>
           </li>
           <li class="menu-item-has-children">
@@ -357,18 +365,47 @@
 
           <!-- Gallery Item -->
           <div class="grid-item devices" v-for="attended_event in attended_events">
-            <a href="attended_event.event_image" class="gallery-item">
+            <a class="gallery-item" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="selected_attended_event = attended_event">
              <img v-bind:src='attended_event.event_image' alt="Gallery">
               <span class="gallery-caption">
                 <h3>{{ attended_event.name }}</h3>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
               </span>
             </a>
           </div><!-- .grid-item -->
          
         </div><!-- .isotope-grid -->
       </section><!-- .container-fluid --> 
-    </div>    
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Tidbits</h5>
+
+            <ul>
+              <li v-for="tidbit in selected_attended_event.tidbits">{{ tidbit.tidbit }}</li>
+            </ul>
+
+            <form>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Add new tidbit of information:</label>
+                <textarea class="form-control" id="message-text" v-model="tidbit"></textarea>
+              </div>
+            </form>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" v-on:click="submitTidbit()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 

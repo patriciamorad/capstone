@@ -26,3 +26,5 @@ class V1::AttendedEventsController < ApplicationController
     render json: attended_events.as_json
   end 
 end
+
+

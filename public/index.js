@@ -84,7 +84,9 @@ var AttendedeventsPage = {
   template: "#attendedevents-page",
   data: function() {
     return {
-      attended_events: []
+      attended_events: [],
+      selected_attended_event: {},
+      tidbit: ""
     };
   },
   created: function() {
@@ -97,9 +99,39 @@ var AttendedeventsPage = {
   },
   mounted: function() {
     // runThemeJavaScript();
-    initTheme();
+    // initTheme();
   },
-  methods: {},
+  methods: {
+    submitTidbit: function() {
+      console.log(
+        "submitTidbit",
+        this.selected_attended_event.name,
+        this.tidbit
+      );
+      var params = {
+        attended_event_id: this.selected_attended_event.id,
+        tidbit: this.tidbit
+      };
+      axios.post("/v1/event_tidbits", params).then(function(response) {
+        console.log(response.data);
+      });
+      // var params = {
+      //   attended_event_id: ,
+      //   input_tidbit: this.tidbit
+
+      // };
+      // axios
+      //   .post("/v1/event_tidbits", params)
+      //     .then(function(response) {
+      //       router.push("/login");
+      //     })
+      //     .catch(
+      //       function(error) {
+      //         this.errors = [error.response.data.errors];
+      //       }.bind(this)
+      //     );
+    }
+  },
   computed: {},
   filters: {
     shortDescription: function(text) {
