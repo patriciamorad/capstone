@@ -2,7 +2,8 @@
   "name": "Mesh",
   "description": "Add events to Mesh",
   "version": "0.7.3",
-  "permissions": ["management", "tabs"],
+  "permissions": ["management", "tabs", "activeTab", "<all_urls>"],
+
   "content_security_policy":
     "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "browser_action": {

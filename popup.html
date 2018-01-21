@@ -8,6 +8,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="popup.css">
 <script src="vue.js"></script>
+<script src="axios.js"></script>
 <script src="popup.js" defer></script>
 
 </head>
@@ -24,18 +25,19 @@
 <div id="vue-app">
   <h1>{{ message }}</h1>
   <div>
-    <label>Event name: </label>
+    <label>Event Name: </label>
     <input type="text" v-model="eventName">
   </div>
   <div>
-    <label>Event info: </label>
-    <input type="text" v-model="eventInfo">
+    <label>Event Date: </label>
+    <input type="text" v-model="eventDate">
   </div>
   <div>
     <label>Event url: </label>
     <input type="text" v-model="tabUrl">
   </div>
 </div>
+
 
 <div id="search_container">
   <input id="search" type="text" placeholder="type to search!!!" spellcheck="false">

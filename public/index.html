@@ -41,7 +41,6 @@
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="index.js" defer></script>
 </head>
-
 <!-- Body -->
 <!-- Adding/Removing class ".page-preloading" is enabling/disabling background smooth page transition effect and spinner. Make sure you also added/removed link to page-preloading.js script in the <head> of the document. -->
 <body class="page-preloading">
@@ -224,7 +223,6 @@
   <script src="js/vendor/nouislider.min.js"></script>
   <script src="js/scripts.js"></script>
 </body><!-- <body> -->
-
 </html>
 
 <template id="home-page">
@@ -310,7 +308,6 @@
     <!-- Shop Catalog / Events Grid -->
     <section class="container padding-bottom-3x">
       <div class="row">
-
         <!-- Item -->
         <div class="col-md-4 col-sm-6" v-for="event in sortedEvents" v-if="nameFilter(event)" v-bind:key="event.id">
           <div class="shop-item">
@@ -343,12 +340,10 @@
 
       <!-- Load More Btn -->
       <a href="#" class="load-more-btn space-top" v-on:click="loadMore()">Load More <sup>10</sup></a>
+      
     </section><!-- .container -->
-
-  
   </div>
 </template>
-
 
 <template id="attendedevents-page">
   <div class="vue-component">
@@ -401,7 +396,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
