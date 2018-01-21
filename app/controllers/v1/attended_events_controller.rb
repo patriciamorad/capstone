@@ -17,6 +17,7 @@ class V1::AttendedEventsController < ApplicationController
   end 
 
   def index 
+
     user_id = current_user.id
     attended_events = AttendedEvent.where(user_id: user_id)
     search_terms = params[:search]
@@ -25,6 +26,17 @@ class V1::AttendedEventsController < ApplicationController
     end 
     render json: attended_events.as_json
   end 
+
+  # def text 
+  #   # To find these visit https://www.twilio.com/user/account
+
+  #   client = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+  #   client.messages.create(
+  #     from: ENV['TWILIO_PHONE_NUMBER'],
+  #     to: ENV['MY_PHONE_NUMBER'],
+  #     body: "If this works, you deserve Portillos Pat"
+  #   )
+  # end
 end
 
 

@@ -96,6 +96,7 @@ var AttendedeventsPage = {
         console.log(this.attended_events);
       }.bind(this)
     );
+    // axios.get("/v1/attended_events/text"); #this is for when my text method is used in the attended eventes controller
   },
   mounted: function() {
     // runThemeJavaScript();

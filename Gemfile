@@ -43,3 +43,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'unirest' 
 gem 'knock' 
 gem 'figaro'
+gem 'twilio-ruby'
+gem 'rufus-scheduler'
