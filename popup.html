@@ -17,10 +17,10 @@
 <div id="spacer_dummy"></div>
 <div id="outer">
 
-<div id="appstore_link">
+<!-- <div id="appstore_link">
   <p>No apps installed.</p><p>
   <button>Go get some</button></p>
-</div>
+</div> -->
 
 <div id="vue-app">
   <h1>{{ message }}</h1>
@@ -28,24 +28,27 @@
     <label>Event Name: </label>
     <input type="text" v-model="eventName">
   </div>
+  <!-- <div>
+    <label>Event Time: </label>
+    <input type="text" v-model="eventTime">
+  </div> -->
   <div>
     <label>Event Date: </label>
     <input type="text" v-model="eventDate">
   </div>
   <div>
-    <label>Event url: </label>
+    <label>Event Location: </label>
+    <input type="text" v-model="eventLocation">
+  </div>
+  <div>
+    <label>Event Url: </label>
     <input type="text" v-model="tabUrl">
   </div>
+  <button v-on:click="submitEvent()">Submit</button>
 </div>
 
 
-<div id="search_container">
-  <input id="search" type="text" placeholder="type to search!!!" spellcheck="false">
-</div>
 
-<div id="apps"></div>
-
-</div>
 
 </body>
 </html>

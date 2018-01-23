@@ -16,7 +16,7 @@ class V1::EventTidbitsController < ApplicationController
     #   ENV['TZ'] = Time.zone.name # This is only a rails thing..
       # rufus_time = '#{event_date} #{event_time} #{ENV['TZ']}'
       # rufus_time = event_date.strftime("%Y/%m/%d") + " 9:00:00 America/Chicago"
-      Rufus::Scheduler.singleton.in '10s' do
+      Rufus::Scheduler.singleton.in '5s' do
           client = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
           client.messages.create(
             from: ENV['TWILIO_PHONE_NUMBER'],
