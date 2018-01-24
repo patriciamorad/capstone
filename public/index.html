@@ -40,6 +40,7 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js"></script> -->
   <script src="index.js" defer></script>
 
   <style>
@@ -324,12 +325,12 @@
 <template id="eventinfo-page">
   <div class="vue-component">
     <div class="container">
-      <h1>Event Information</h1>
+      <h1 >Event Information</h1>
         <!-- Product Info -->
-        <section class="fw-section bg-gray padding-bottom-3x">
+        <section class="fw-section bg-gray padding-bottom-3x" style="background-color: #000000">
           <div class="container">
             <div class="product-info padding-top-2x text-center">
-              <h1 class="h2 space-bottom-half"><b> {{ event.name }}  </b></h1>
+              <h1 class="h2 space-bottom-half"><b style="color: #ffffff"> {{ event.name }}  </b></h1>
               <h2>{{ event.local_date }}</h2>
             </div><!-- .product-info -->
           </div><!-- .container -->
@@ -338,14 +339,12 @@
         <div id="map"></div>
 
 
-
-
         <!-- Product Tabs -->
         <section class="container padding-top-2x">
           <!-- Nav Tabs -->
-          <ul class="nav-tabs text-center" role="tablist">
-            <li class="active"><a href="#description" role="tab" data-toggle="tab">Description</a></li>
-            <li><a href="#additional" role="tab" data-toggle="tab">Additional Info</a></li>
+          <ul class="nav-tabs text-center" role="tablist" style="background-color: #000000">
+            <li class="active"><a href="#description" role="tab" data-toggle="tab" style="color: #ffffff">Description</a></li>
+            <li><a href="#additional" role="tab" data-toggle="tab" style="color: #ffffff">Additional Info</a></li>
           </ul><!-- .nav-tabs -->
           <!-- Tab panes -->
           <div class="tab-content">
@@ -377,7 +376,7 @@
                     </tr>
                     <tr>
                       <th>Link</th>
-                      <td><a href="event.link">{{ event.link }}</a></td>
+                      <td><a :href="event.link">{{ event.link }}</a></td>
                     </tr>
                   </table>
                 </div>
