@@ -2,7 +2,7 @@ class V1::ExtensionAttendedEventsController < ApplicationController
 
   def create 
     extension_attended_event = ExtensionAttendedEvent.new(
-      user_id: current_user.id,
+      user_id: 2,
       name: params[:name],
       location: params[:location],
       url: params[:url]

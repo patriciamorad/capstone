@@ -179,10 +179,18 @@ var EventInfoPage = {
           };
           console.log(location);
 
+          var contentString = this.event.venue.address_1;
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+
           var marker = new google.maps.Marker({
             position: location,
             map: map,
             title: "Location"
+          });
+          marker.addListener("click", function() {
+            infowindow.open(map, marker);
           });
         }.bind(this)
       );

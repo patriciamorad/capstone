@@ -41,15 +41,15 @@ var app = new Vue({
     );
   },
   methods: {
-    submitExtensionEvent: function(inputExtensionEvent) {
+    submitExtensionEvent: function() {
       var params = {
-        name: inputExtensionEvent.eventName,
-        date: inputExtensionEvent.eventDate,
-        location: inputExtensionEvent.eventLocation,
-        url: inputExtensionEvent.tabUrl
+        name: this.eventName,
+        date: this.eventDate,
+        location: this.eventLocation,
+        url: this.tabUrl
       };
       axios
-        .post("/v1/extension_attended_events", params)
+        .post("http://localhost:3000/v1/extension_attended_events", params)
         .then(function(response) {
           console.log(response.data);
         });
