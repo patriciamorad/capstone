@@ -24,7 +24,8 @@ class V1::EventTidbitsController < ApplicationController
             body: event_tidbit.tidbit 
           )
       end   
-      render json: {message: "Tidbit Saved! Add another!"}
+      # render json: {message: "Tidbit Saved! Add another!"}
+      render json: event_tidbit.as_json
     else
       render json: {errors: event_tidbit.errors.full_messages}, status: :bad_request
     end

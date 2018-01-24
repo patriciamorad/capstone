@@ -28,10 +28,10 @@ var app = new Vue({
             var template = document.createElement("div");
             template.innerHTML = htmlString;
             this.eventName = template.querySelector("title").innerHTML;
-            // this.eventTime = template.querySelector(".event-time").innerHTML;
-            this.eventDate = template.querySelector(
-              ".date-not-today"
-            ).innerHTML;
+            this.eventTime = template.querySelector(".event-time").innerHTML;
+            // this.eventDate = template.querySelector(
+            //   ".date-not-today"
+            // ).innerHTML;
             this.eventLocation = template.querySelector(
               ".address-line-1"
             ).innerHTML;
@@ -41,9 +41,18 @@ var app = new Vue({
     );
   },
   methods: {
-    submitEvent: function() {
-      console.log("YOYOUOY");
-      // axios.post("http://localhost:3000/v1/extension_attended_events", params)
+    submitExtensionEvent: function(inputExtensionEvent) {
+      var params = {
+        name: inputExtensionEvent.eventName,
+        date: inputExtensionEvent.eventDate,
+        location: inputExtensionEvent.eventLocation,
+        url: inputExtensionEvent.tabUrl
+      };
+      axios
+        .post("/v1/extension_attended_events", params)
+        .then(function(response) {
+          console.log(response.data);
+        });
     }
   }
 });

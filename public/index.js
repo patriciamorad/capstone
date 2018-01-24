@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios, Elevator, jQuery, initTheme */
+/* global Vue, VueRouter, axios, Elevator, jQuery, initTheme, google*/
 var HomePage = {
   template: "#home-page",
   data: function() {
@@ -10,7 +10,7 @@ var HomePage = {
     };
   },
   mounted: function() {
-    axios.get("/v1/events?count=6").then(
+    axios.get("/v1/events?count=9").then(
       function(response) {
         this.events = response.data;
         console.log("mounted", this.events);
@@ -46,7 +46,6 @@ var HomePage = {
         .includes(this.eventFilter.toLowerCase());
     },
     loadMore: function() {
-      console.log("IM GONNA LOAD MOAR");
       axios.get("/v1/events?count=25").then(
         function(response) {
           this.events = response.data;
@@ -113,24 +112,13 @@ var AttendedeventsPage = {
         attended_event_id: this.selected_attended_event.id,
         tidbit: this.tidbit
       };
-      axios.post("/v1/event_tidbits", params).then(function(response) {
-        console.log(response.data);
-      });
-      // var params = {
-      //   attended_event_id: ,
-      //   input_tidbit: this.tidbit
-
-      // };
-      // axios
-      //   .post("/v1/event_tidbits", params)
-      //     .then(function(response) {
-      //       router.push("/login");
-      //     })
-      //     .catch(
-      //       function(error) {
-      //         this.errors = [error.response.data.errors];
-      //       }.bind(this)
-      //     );
+      axios.post("/v1/event_tidbits", params).then(
+        function(response) {
+          console.log(response.data);
+          this.selected_attended_event.tidbits.push(response.data);
+          this.tidbit = "";
+        }.bind(this)
+      );
     }
   },
   computed: {},
@@ -170,7 +158,34 @@ var EventInfoPage = {
       );
   },
   mounted: function() {
-    // runThemeJavaScript();
+    axios
+      .get(
+        "/v1/events/" +
+          this.$route.params.id +
+          "/?urlname=" +
+          this.$route.query.urlname
+      )
+      .then(
+        function(response) {
+          this.event = response.data;
+          console.log(this.event);
+          var map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 41.8781, lng: -87.6298 },
+            zoom: 12
+          });
+          var location = {
+            lat: this.event.venue.lat,
+            lng: this.event.venue.lon
+          };
+          console.log(location);
+
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: "Location"
+          });
+        }.bind(this)
+      );
   },
   methods: {},
   computed: {},

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     post "/event_tidbits" => "event_tidbits#create"
     get "/attended_events" => "attended_events#index"
     post "/attended_events" => "attended_events#create"
-    # get "/attended_events/text" => "attended_events#text"
+    post "/extension_attended_events" => "extension_attended_events#create"
 
   end
 end

@@ -39,7 +39,20 @@
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
   <script src="index.js" defer></script>
+
+  <style>
+    #map {
+          height: 400px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+  </style>
 </head>
 <!-- Body -->
 <!-- Adding/Removing class ".page-preloading" is enabling/disabling background smooth page transition effect and spinner. Make sure you also added/removed link to page-preloading.js script in the <head> of the document. -->
@@ -94,8 +107,7 @@
       <!-- Toolbar -->
       <div class="toolbar">
         <div class="inner">
-          <a href="#" class="mobile-menu-toggle"><i class="material-icons menu"></i></a>
-          <a href="account.html"><i class="material-icons person"></i></a> 
+          <router-link to="/login"><i class="material-icons person"></i></router-link>
         </div><!-- .inner -->
       </div><!-- .toolbar -->
     </header><!-- .navbar.navbar-sticky -->
@@ -231,7 +243,7 @@
               <img class="card-img-top" v-bind:src="event.description_images[0]">
               <div class="shop-item-tools">
                 <a v-bind:href="'#/events/' + event.id + '?urlname=' + event.group.urlname" class="add-to-whishlist" v-on:click="eventInfo(event)"data-toggle="tooltip" data-placement="top" title="More info">
-                  <i class="material-icons favorite_border"></i>
+                  <i class="material-icons help_outline" style="font-size: 25px"></i>
                 </a>
                 <a href="#" class="add-to-cart" v-on:click="saveEvent(event)">
                   <em>Attend Event</em>
@@ -324,6 +336,11 @@
           </div><!-- .container -->
         </section><!-- .fw-section.bg-gray -->
 
+        <div id="map"></div>
+
+
+
+
         <!-- Product Tabs -->
         <section class="container padding-top-2x">
           <!-- Nav Tabs -->
@@ -357,7 +374,7 @@
                   <table class="table-no-border">
                     <tr>
                       <th>Location</th>
-                      <td>{{ event.venue ? event.venue.name : '(no info)' }}</td>
+                      <td>{{ event.venue ? event.venue.address_1 : '(no info)' }}</td>
                     </tr>
                     <tr>
                       <th>Link</th>
