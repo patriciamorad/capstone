@@ -496,6 +496,60 @@ var EventInfoPage = {
   }
 };
 
+var ExtensionAttendedEventsPage = {
+  template: "#extension-attended-events-page",
+  data: function() {
+    return {
+      extension_attended_events: []
+      // selected_extension_attended_event: {},
+      // tidbit: ""
+    };
+  },
+  created: function() {
+    axios.get("/v1/extension_attended_events").then(
+      function(response) {
+        this.extension_attended_events = response.data;
+        console.log(this.extension_attended_events);
+      }.bind(this)
+    );
+  },
+  mounted: function() {
+    // runThemeJavaScript();
+    // initTheme();
+  },
+  methods: {
+    // submitTidbit: function() {
+    //   console.log(
+    //     "submitTidbit",
+    //     this.selected_extension_attended_event.name,
+    //     this.tidbit
+    //   );
+    //   var params = {
+    //     extension_attended_event_id: this.selected_extension_attended_event.id,
+    //     tidbit: this.tidbit
+    //   };
+    //   axios.post("/v1/event_tidbits", params).then(
+    //     function(response) {
+    //       console.log(response.data);
+    //       this.selected_extension_attended_event.tidbits.push(response.data);
+    //       this.tidbit = "";
+    //     }.bind(this)
+    //   );
+    // }
+  },
+  computed: {},
+  filters: {
+    shortDescription: function(text) {
+      var maxLength = 100;
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength - 3) + "...";
+      } else {
+        return text;
+      }
+    }
+  }
+};
+
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -577,7 +631,11 @@ var router = new VueRouter({
     { path: "/login", component: LoginPage },
     { path: "/logout", component: LogoutPage },
     { path: "/attended_events", component: AttendedeventsPage },
-    { path: "/events/:id", component: EventInfoPage }
+    { path: "/events/:id", component: EventInfoPage },
+    {
+      path: "/extension_attended_events",
+      component: ExtensionAttendedEventsPage
+    }
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

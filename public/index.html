@@ -97,7 +97,8 @@
             <a href="#">Events</a>
             <ul class="sub-menu">
               <!-- <li><a href="/#/attended_events">My Events</a></li> -->
-              <li><router-link to="/attended_events">My Events</router-link></li>
+              <li><router-link to="/attended_events">My (mesh) Events</router-link></li>
+              <li><router-link to="/extension_attended_events">Extra Events</router-link></li>
             </ul>
           </li>
         </ul><!-- .menu -->
@@ -384,6 +385,56 @@
           </div><!-- .tab-content -->
         </section><!-- .container -->
     </div>    
+  </div>
+</template>
+
+<template id="extension-attended-events-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>More of my events</h1>
+      <section class="container padding-top-half padding-bottom-2x">
+        <div class="row">
+          <div v-for="extension_attended_event in extension_attended_events">
+            <div class="col-sm-6" style="min-height: 500px;">
+                <a class="gallery-item" data-toggle="modal" data-target="#exampleModalCenter">
+                 <img v-bind:src='extension_attended_event.image' alt="Gallery">
+                  <span class="gallery-caption">
+                    <h3>{{ extension_attended_event.name }}</h3>
+                  </span>
+                </a>
+            </div>
+          </div>
+        </div><!-- .isotope-grid -->
+      </section><!-- .container-fluid --> 
+    </div>
+
+    <!-- Modal -->
+   <!--  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Tidbits</h5>
+
+            <ul>
+              <li v-for="tidbit in selected_attended_event.tidbits">{{ tidbit.tidbit }}</li>
+            </ul>
+            <form>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Add new tidbit of information:</label>
+                <textarea class="form-control" id="message-text" v-model="tidbit"></textarea>
+              </div>
+            </form>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" v-on:click="submitTidbit()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
 </template>
 

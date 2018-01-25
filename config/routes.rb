@@ -9,6 +9,6 @@ Rails.application.routes.draw do
     get "/attended_events" => "attended_events#index"
     post "/attended_events" => "attended_events#create"
     post "/extension_attended_events" => "extension_attended_events#create"
-
+    get "/extension_attended_events" =>"extension_attended_events#index"
   end
 end
