@@ -53,6 +53,11 @@ var app = new Vue({
         .then(function(response) {
           console.log(response.data);
         });
+      chrome.tabs.getCurrent(function(tab) {
+        var myNewUrl = "http://localhost:3000/#/";
+        //Update the url here.
+        chrome.tabs.update(undefined, { url: myNewUrl });
+      });
     }
   }
 });

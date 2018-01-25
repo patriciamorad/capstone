@@ -513,10 +513,7 @@ var ExtensionAttendedEventsPage = {
       }.bind(this)
     );
   },
-  mounted: function() {
-    // runThemeJavaScript();
-    // initTheme();
-  },
+  mounted: {},
   methods: {
     // submitTidbit: function() {
     //   console.log(
