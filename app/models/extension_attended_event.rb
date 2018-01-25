@@ -12,7 +12,7 @@ class ExtensionAttendedEvent < ApplicationRecord
       location: location,
       url: url,
       user_id: user_id,
-      image: "https://images.pexels.com/photos/306534/pexels-photo-306534.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+      image: "https://images.pexels.com/photos/60032/time-calendar-saturday-weekend-60032.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
     }
   end
 
